@@ -23,7 +23,7 @@ $phpill_application = '../Application';
  *
  * This path can be absolute or relative to this file.
  */
-$phpill_modules = '../Modules';
+$phpill_modules = '../../Modules';
 
 /**
  * Phpill system directory. This directory should contain the core/ directory,
@@ -31,7 +31,7 @@ $phpill_modules = '../Modules';
  *
  * This path can be absolute or relative to this file.
  */
-$phpill_system = '../System';
+$phpill_system = '../../../Phpill/System';
 
 $phpill_server = '../Servers';
 $phpill_root = '../';

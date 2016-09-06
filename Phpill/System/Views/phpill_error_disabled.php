@@ -9,7 +9,7 @@ if (Router::$routed_uri == 'sns' || Router::$routed_uri == 'page') {
 </head>
 <body>
 <style type="text/css">
-<?php include Phpill::find_file('views', 'phpill_errors', FALSE, 'css') ?>
+<?php include Phpill::find_file('Views', 'phpill_errors', FALSE, 'css') ?>
 </style>
 <div id="framework_error" style="width:24em;margin:50px auto;">
 <h3><?php echo System\Helpers\Html::specialchars($error) ?></h3>

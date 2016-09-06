@@ -8,7 +8,7 @@
 </head>
 <body>
 <style type="text/css">
-<?php include Phpill::find_file('views', 'phpill_errors', FALSE, 'css') ?>
+<?php include Phpill::find_file('Views', 'phpill_errors', FALSE, 'css') ?>
 </style>
 <div id="framework_error" style="width:42em;margin:20px auto;">
 <h3><?php echo System\Helpers\Html::specialchars($error) ?></h3>

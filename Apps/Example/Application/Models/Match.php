@@ -20,7 +20,12 @@ class Match extends \System\Libraries\Model {
 		$this->db->where('match_id', $match_id);
 		$data = $this->db->get($this->table_name);
 		echo $this->db->last_query();
+		
+		//var_dump($data->current());
 		//$this->db->query("test");
+		
+		$this->db->query("select * from dt_match");
+		/**
 		$this->db->begin();
 		try {
 			$this->db->query("test");
@@ -29,6 +34,8 @@ class Match extends \System\Libraries\Model {
 			echo $e->getMessage();
 			$this->db->rollback();
 		}
+		 * 
+		 */
 		
 		return $data;
 	}

@@ -78,20 +78,14 @@ $config['display_errors'] = true;
 $config['render_stats'] = true;
 
 /**
- * Filename prefixed used to determine extensions. For example, an
- * extension to the Controller class would be named MY_Controller.php.
- */
-$config['extension_prefix'] = 'MY_';
-
-/**
  * Additional resource paths, or "modules". Each path can either be absolute
  * or relative to the docroot. Modules can include any resource that can exist
  * in your application directory, configuration files, controllers, views, etc.
  */
 $config['modules'] = array
 (
-	MODPATH.'const',//常量模块
-	MODPATH.'Core',//核心模块
+	//MODPATH.'const',//常量模块
+	//MODPATH.'Core',//核心模块
 );
 
 

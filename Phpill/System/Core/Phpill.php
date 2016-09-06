@@ -831,7 +831,7 @@ final class Phpill {
 			}
 
 			// Load the error
-			require self::find_file('views', empty($template) ? 'phpill_error_page' : $template);
+			require self::find_file('Views', empty($template) ? 'phpill_error_page' : $template);
 		}
 		else
 		{
@@ -840,7 +840,7 @@ final class Phpill {
 			$message = self::lang('core.errors_disabled', url::site(), url::site(System\Libraries\Router::$current_uri));
 
 			// Load the errors_disabled view
-			require self::find_file('views', 'phpill_error_disabled');
+			require self::find_file('Views', 'phpill_error_disabled');
 		}
 
 		if ( ! Event::has_run('system.shutdown'))
@@ -895,7 +895,7 @@ final class Phpill {
 		// Nothing found, yet
 		$found = NULL;
 
-		if ($directory === 'Config' OR $directory === 'i18n')
+		if ($directory === 'Config' OR $directory === 'I18n')
 		{
 			// Search in reverse, for merging
 			$paths = array_reverse($paths);
@@ -929,7 +929,7 @@ final class Phpill {
 			if ($required === TRUE)
 			{
 				// Directory i18n key
-				$directory = 'core.'.inflector::singular($directory);
+				$directory = 'Core.'.inflector::singular($directory);
 				
 				// If the file is required, throw an exception
 				throw new Phpill_Exception('core.resource_not_found', self::lang($directory), $search);
@@ -1023,7 +1023,7 @@ final class Phpill {
 			// Messages for this group
 			$messages = array();
 
-			if ($files = self::find_file('i18n', $locale.'/'.$group))
+			if ($files = self::find_file('I18n', $locale.'/'.$group))
 			{
 				foreach ($files as $file)
 				{
@@ -1452,9 +1452,13 @@ final class Phpill {
 	public static function import($class)
 	{
 		//替换
-		$name = str_replace("\\", "/", $class);
+		//$name = str_replace("\\", "/", $class);
 		
-		return ROOTPATH.$name.EXT;
+		$tr_pairs = array('System\\' => SYSPATH, 'Application\\' => APPPATH,
+						 'Modules\\' => MODPATH, '\\' => DIRECTORY_SEPARATOR);
+		$name = strtr($class, $tr_pairs);
+		
+		return $name.EXT;
 	}
 }
 
