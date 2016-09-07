@@ -25,32 +25,56 @@ class Redis {
 	
 	private $cur_timestamp;
 	
-    public function __construct($config, $code_type = self::CODE_TYPE_JSON){
-        $this->conn = new \Redis();
-        $this->conn->connect($host, $port);
-		$this->code_type = $code_type;
-		$this->cur_timestamp = time();
-        if($auth){
-            $this->conn->auth($auth);
+    public function __construct($config = FALSE){
+		if (is_string($config))
+		{
+			$name = $config;
+
+			// Test the config group name
+			if (($config = \Phpill::config('cache.'.$config)) === NULL)
+				throw new \Phpill_Exception('cache.undefined_group', $name);
+		}
+
+		if (is_array($config))
+		{
+			// Append the default configuration options
+			$config += \Phpill::config('cache.default');
+		}
+		else
+		{
+			// Load the default group
+			$config = \Phpill::config('cache.default');
+		}
+
+		// Cache the config in the object
+		$this->config = $config;
+		
+		$this->conn = new \Redis();
+        $this->conn->connect($this->config['host'], $this->config['port']);
+		
+        if($this->config['auth']){
+            $this->conn->auth($this->config['auth']);
         }
+		
+		$this->code_type = $this->config['serialize'];
+		$this->cur_timestamp = time();
     }
 	
 	/**
 	 * Returns a singleton instance of Cache.
 	 *
 	 * @param   array  configuration
-	 * @return  Redis
+	 * @return  Cache
 	 */
-	public static function instance($host=null, $port=null, $auth=null, $code_type = self::CODE_TYPE_JSON)
+	public static function instance($config = 'default')
 	{
-        if(!isset(self::$_instance[$host.$code_type])){
-            $host = $host ? $host : C('REDIS_HOST');
-            $port = $port ? $port : C('REDIS_PORT');
-            $auth = $auth ? $auth : C('REDIS_AUTH');
-			
-            self::$_instance[$host.$code_type] = new Redis($host, $port, $auth, $code_type);
-        }
-        return self::$_instance[$host.$code_type];
+		if ( ! isset(Cache::$instances[$config]))
+		{
+			// Create a new instance
+			Cache::$instances[$config] = new Cache($config);
+		}
+
+		return Cache::$instances[$config];
 	}
 	
 	public function encode($value)

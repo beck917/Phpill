@@ -1,2 +1,0 @@
-# Phpill
-A php framework
