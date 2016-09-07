@@ -17,11 +17,5 @@
         "psr-4": {
             "Phpill\\": "src/Phpill"
         }
-    },
-   "repositories": [
-	    {
-	        "type": "vcs",
-	        "url":  "git@https://github.com/beck917/Phpill.git"
-	    }
-    ]
+    }
 }
