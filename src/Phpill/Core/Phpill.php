@@ -52,6 +52,7 @@ final class Phpill {
 	// Internal caches and write status
 	private static $internal_cache = array();
 	private static $write_cache;
+	
 	/**
 	 * Sets up the PHP environment. Adds error/exception handling, output
 	 * buffering, and adds an auto-loading method for loading classes.
