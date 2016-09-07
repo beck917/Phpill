@@ -96,7 +96,7 @@ final class Phpill {
 		}
 		
 		// Set autoloader
-		spl_autoload_register(array('Phpill', 'auto_load'));
+		//spl_autoload_register(array('Phpill', 'auto_load'));
 		
 		// Disable notices and "strict" errors
 		$ER = error_reporting(~E_NOTICE & ~E_STRICT);
@@ -272,12 +272,14 @@ final class Phpill {
 	{
 		if ($process === TRUE)
 		{
+			/**
 			$server_path = self::$configuration['core']['server'];
 			if ($server_path = str_replace('\\', '/', realpath($server_path)))
 			{
 				// Add a valid path
 				self::$include_paths = array($server_path.'/');
 			}
+			*/
 			
 			// Add APPPATH as the first path
 			self::$include_paths[] = APPPATH;
