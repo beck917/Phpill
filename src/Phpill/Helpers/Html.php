@@ -63,15 +63,15 @@ class Html {
 	{
 		if ($uri === '')
 		{
-			$site_url = url::base(FALSE);
+			$site_url = Url::base(FALSE);
 		}
 		elseif (strpos($uri, '://') === FALSE AND strpos($uri, '#') !== 0)
 		{
-			$site_url = url::site($uri, $protocol);
+			$site_url = Url::site($uri, $protocol);
 		}
 		else
 		{
-			if (html::$windowed_urls === TRUE AND empty($attributes['target']))
+			if (Html::$windowed_urls === TRUE AND empty($attributes['target']))
 			{
 				$attributes['target'] = '_blank';
 			}
@@ -81,9 +81,9 @@ class Html {
 
 		return
 		// Parsed URL
-		'<a href="'.html::specialchars($site_url, FALSE).'"'
+		'<a href="'.Html::specialchars($site_url, FALSE).'"'
 		// Attributes empty? Use an empty string
-		.(is_array($attributes) ? html::attributes($attributes) : '').'>'
+		.(is_array($attributes) ? Html::attributes($attributes) : '').'>'
 		// Title empty? Use the parsed URL
 		.(($title === NULL) ? $site_url : $title).'</a>';
 	}
@@ -254,7 +254,7 @@ class Html {
 		}
 
 		// Set the meta attribute value
-		$attr = in_array(strtolower($tag), Phpill::config('http.meta_equiv')) ? 'http-equiv' : 'name';
+		$attr = in_array(strtolower($tag), \Phpill::config('http.meta_equiv')) ? 'http-equiv' : 'name';
 
 		return '<meta '.$attr.'="'.$tag.'" content="'.$value.'" />';
 	}
