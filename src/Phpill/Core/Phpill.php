@@ -123,7 +123,7 @@ final class Phpill {
 		self::$buffer_level = ob_get_level();
 
 		// Set autoloader
-		spl_autoload_register(array('Phpill', 'auto_load'));
+		//spl_autoload_register(array('Phpill', 'auto_load'));
 
 		// Set error handler
 		set_error_handler(array('Phpill', 'exception_handler'));
@@ -932,7 +932,7 @@ final class Phpill {
 			if ($required === TRUE)
 			{
 				// Directory i18n key
-				$directory = 'Core.'.inflector::singular($directory);
+				$directory = 'Core.'.\Phpill\Helpers\Inflector::singular($directory);
 				
 				// If the file is required, throw an exception
 				throw new Phpill_Exception('core.resource_not_found', self::lang($directory), $search);
