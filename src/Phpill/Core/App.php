@@ -3,7 +3,7 @@
 /**
  * @author Beck Xu <beck917@gmail.com>
  * @date 2016-09-07
- * @copyright Cubee.Lot
+ * @copyright (c) 2009-2016 Phpill Team
  */
 namespace Phpill\Core;
 final class App {

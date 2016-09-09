@@ -11,8 +11,8 @@
  *
  * @package    Core
  * @author     Phpill Team
- * @copyright  (c) 2007-2008 Phpill Team
- * @license    http://phpillphp.com/license.html
+ * @copyright  (c) 2009-2016 Phpill Team
+ * @license    GNU General Public License v2.0
  */
 namespace Phpill\Controllers;
 abstract class Template extends \Phpill\Libraries\Controller {

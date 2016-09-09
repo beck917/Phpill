@@ -9,7 +9,7 @@
  * @package    Core
  * @author     Phpill Team
  * @copyright  (c) 2007 Phpill Team
- * @license    http://phpillphp.com/license.html
+ * @license    GNU General Public License v2.0
  * @link       http://docs.phpillphp.com/general/events
  */
 final class Event {
