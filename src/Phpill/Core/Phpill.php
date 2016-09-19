@@ -5,8 +5,8 @@
  * 
  * @package    Core
  * @author     Phpill Team
- * @copyright  (c) 2009-2016 Phpill Team
- * @license    GNU General Public License v2.0
+ * @copyright  (c) 2007-2008 Phpill Team
+ * @license    http://phpillphp.com/license.html
  */
 final class Phpill {
 
@@ -96,7 +96,7 @@ final class Phpill {
 		}
 		
 		// Set autoloader
-		//spl_autoload_register(array('Phpill', 'auto_load'));
+		spl_autoload_register(array('Phpill', 'auto_load'));
 		
 		// Disable notices and "strict" errors
 		$ER = error_reporting(~E_NOTICE & ~E_STRICT);
