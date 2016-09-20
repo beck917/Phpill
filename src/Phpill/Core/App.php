@@ -7,7 +7,7 @@
  */
 namespace Phpill\Core;
 final class App {
-	public static function run()
+	public static function run($container = null)
 	{
 		define('PHPILL_VERSION',  '1.0');
 		define('PHPILL_CODENAME', 'accipiter');
@@ -17,6 +17,10 @@ final class App {
 		
 		$phpill_system = __DIR__."/../";
 		define('SYSPATH', str_replace('\\', '/', realpath($phpill_system)).'/');
+        
+        if ($container != null) {
+            $container->exec();
+        }
 
 		// Load core files
 		require SYSPATH.'Core/Phpill'.EXT;
@@ -27,13 +31,22 @@ final class App {
 
 		// Prepare the system
 		\Event::run('system.ready');
-
-		// Determine routing
-		\Event::run('system.routing');
-
-		// Make the magic happen!
-		\Event::run('system.execute');
-
+        
+        if (PHP_SAPI == 'cli') // Try and load minion
+        {
+            class_exists('\Phpill\Modules\Minion\Libraries\Task') OR die('Please enable the Minion module for CLI support.');
+            
+            set_error_handler(array('\Phpill\Modules\Minion\Libraries\Exception', 'error_handler'));
+            set_exception_handler(array('\Phpill\Modules\Minion\Libraries\Exception', 'handler'));
+            
+            \Phpill\Modules\Minion\Libraries\Task::factory(\Phpill\Modules\Minion\Libraries\CLI::options())->execute();
+        } else {
+            // Determine routing
+            \Event::run('system.routing');
+            
+            // Make the magic happen!
+            \Event::run('system.execute');
+        }
 		// Clean up and exit
 		\Event::run('system.shutdown');
 	}
