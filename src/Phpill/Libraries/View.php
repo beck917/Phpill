@@ -1,13 +1,13 @@
 <?php 
 /**
- * Loads and displays Phpill view files. Can also handle output of some binary
+ * Loads and displays \Phpill view files. Can also handle output of some binary
  * files, such as image, Javascript, and CSS files.
  *
  * $Id: View.php 3821 2008-12-19 16:06:38Z samsoir $
  *
  * @package    Core
- * @author     Phpill Team
- * @copyright  (c) 2009-2016 Phpill Team
+ * @author     \Phpill Team
+ * @copyright  (c) 2009-2016 \Phpill Team
  * @license    GNU General Public License v2.0
  */
 namespace Phpill\Libraries;
@@ -37,7 +37,7 @@ class View {
 	/**
 	 * Attempts to load a view and pre-load view data.
 	 *
-	 * @throws  Phpill_Exception  if the requested view cannot be found
+	 * @throws  \Phpill_Exception  if the requested view cannot be found
 	 * @param   string  view name
 	 * @param   array   pre-load data
 	 * @param   string  type of file: html, css, js, etc.
@@ -82,18 +82,18 @@ class View {
 		if ($type == NULL)
 		{
 			// Load the filename and set the content type
-			$this->phpill_filename = Phpill::find_file('views', $name, TRUE);
+			$this->phpill_filename = \Phpill::find_file('Views', $name, TRUE);
 			$this->phpill_filetype = EXT;
 		}
 		else
 		{
 			// Check if the filetype is allowed by the configuration
-			if ( ! in_array($type, Phpill::config('view.allowed_filetypes')))
-				throw new Phpill_Exception('core.invalid_filetype', $type);
+			if ( ! in_array($type, \Phpill::config('view.allowed_filetypes')))
+				throw new \Phpill_Exception('core.invalid_filetype', $type);
 
 			// Load the filename and set the content type
-			$this->phpill_filename = Phpill::find_file('views', $name, TRUE, $type);
-			$this->phpill_filetype = Phpill::config('mimes.'.$type);
+			$this->phpill_filename = \Phpill::find_file('Views', $name, TRUE, $type);
+			$this->phpill_filetype = \Phpill::config('mimes.'.$type);
 
 			if ($this->phpill_filetype == NULL)
 			{
@@ -256,7 +256,7 @@ class View {
 	public function render($print = FALSE, $renderer = FALSE)
 	{
 		if (empty($this->phpill_filename))
-			throw new Phpill_Exception('core.view_set_filename');
+			throw new \Phpill_Exception('core.view_set_filename');
 
 		if (is_string($this->phpill_filetype))
 		{
@@ -264,7 +264,7 @@ class View {
 			$data = array_merge(self::$phpill_global_data, $this->phpill_local_data);
 
 			// Load the view in the controller for access to $this
-			$output = Phpill::$instance->_phpill_load_view($this->phpill_filename, $data);
+			$output = $this->_phpill_load_view($this->phpill_filename, $data);
 
 			if ($renderer !== FALSE AND is_callable($renderer, TRUE))
 			{
@@ -300,5 +300,40 @@ class View {
 		}
 
 		return $output;
+	}
+    
+	/**
+	 * Includes a View within the controller scope.
+	 *
+	 * @param   string  view filename
+	 * @param   array   array of view variables
+	 * @return  string
+	 */
+	public function _phpill_load_view($kohana_view_filename, $kohana_input_data)
+	{
+		if ($kohana_view_filename == '')
+			return;
+
+		// Buffering on
+		ob_start();
+
+		// Import the view variables to local namespace
+		extract($kohana_input_data, EXTR_SKIP);
+
+		// Views are straight HTML pages with embedded PHP, so importing them
+		// this way insures that $this can be accessed as if the user was in
+		// the controller, which gives the easiest access to libraries in views
+		try
+		{
+			include $kohana_view_filename;
+		}
+		catch (Exception $e)
+		{
+			ob_end_clean();
+			throw $e;
+		}
+
+		// Fetch the output and close the buffer
+		return ob_get_clean();
 	}
 } // End View

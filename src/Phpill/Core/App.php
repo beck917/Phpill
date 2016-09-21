@@ -36,8 +36,8 @@ final class App {
         {
             class_exists('\Phpill\Modules\Minion\Libraries\Task') OR die('Please enable the Minion module for CLI support.');
             
-            set_error_handler(array('\Phpill\Modules\Minion\Libraries\Exception', 'error_handler'));
             set_exception_handler(array('\Phpill\Modules\Minion\Libraries\Exception', 'handler'));
+            set_error_handler(array('\Phpill\Modules\Minion\Libraries\Exception', 'error_handler_new'));
             
             \Phpill\Modules\Minion\Libraries\Task::factory(\Phpill\Modules\Minion\Libraries\CLI::options())->execute();
         } else {

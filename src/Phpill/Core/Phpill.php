@@ -124,12 +124,12 @@ final class Phpill {
 
 		// Set autoloader
 		//spl_autoload_register(array('Phpill', 'auto_load'));
-
-		// Set error handler
-		set_error_handler(array('Phpill', 'exception_handler'));
-
+        
 		// Set exception handler
 		set_exception_handler(array('Phpill', 'exception_handler'));
+
+		// Set error handler
+		set_error_handler(array('Phpill', 'error_handler'));
 
 		// Send default text/html UTF-8 header
 		header('Content-Type: text/html; charset=UTF-8');
@@ -720,6 +720,26 @@ final class Phpill {
 	public static function show_404($page = FALSE, $template = FALSE)
 	{
 		throw new Phpill_404_Exception($page, $template);
+	}
+    
+	/**
+	 * PHP error handler, converts all errors into ErrorExceptions. This handler
+	 * respects error_reporting settings.
+	 *
+	 * @throws  ErrorException
+	 * @return  TRUE
+	 */
+	public static function error_handler($code, $error, $file = NULL, $line = NULL)
+	{
+		if (error_reporting() & $code)
+		{
+			// This error is not suppressed by current error reporting settings
+			// Convert the error into an ErrorException
+			throw new ErrorException($error, $code, 0, $file, $line);
+		}
+
+		// Do not execute the PHP error handler
+		return TRUE;
 	}
 
 	/**
@@ -1504,6 +1524,10 @@ final class Phpill {
 
 		if ($filename = self::import($class))
 		{
+            if (!is_file($filename)) {
+				// If the file is required, throw an exception
+				throw new Phpill_Exception('core.resource_not_found', $filename, $class);
+            }
 			// Load the class
 			require $filename;
 		}
@@ -1605,7 +1629,7 @@ class Phpill_Exception extends Exception {
 	 */
 	public static function text(\Exception $e)
 	{
-		return sprintf('%s [ %s ]: %s ~ %s [ %d ]',
+		return sprintf('%s %s [ %s ]: %s ~ %s [ %d ]', "        0)",
 			get_class($e), $e->getCode(), strip_tags($e->getMessage()), $e->getFile(), $e->getLine())."\n";
 	}
 
