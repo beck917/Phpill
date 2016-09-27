@@ -101,6 +101,7 @@ class Router {
 
 		foreach (self::$rsegments as $key => $segment)
 		{
+            $segment = ucfirst($segment);
 			// Add the segment to the search path
 			$controller_path .= $segment;
 
@@ -118,6 +119,7 @@ class Router {
 					if ($c = str_replace('\\', '/', realpath($dir.$controller_path.EXT)) 
 					    AND is_file($c) AND strpos($c, $dir) === 0)
 					{
+                                        
 						// Set controller name
 						self::$controller = "\\Application\\Controllers\\".$segment;
 
@@ -147,7 +149,6 @@ class Router {
 		{
 			// Set method
 			self::$method = self::$rsegments[$method_segment];
-
 			if (isset(self::$rsegments[$method_segment + 1]))
 			{
 				// Set arguments
