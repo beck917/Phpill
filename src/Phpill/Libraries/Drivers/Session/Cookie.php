@@ -17,14 +17,14 @@ class Cookie implements \Phpill\Libraries\Drivers\Session {
 
 	public function __construct()
 	{
-		$this->cookie_name = Phpill::config('session.name').'_data';
+		$this->cookie_name = \Phpill::config('session.name').'_data';
 
-		if (Phpill::config('session.encryption'))
+		if (\Phpill::config('session.encryption'))
 		{
 			$this->encrypt = Encrypt::instance();
 		}
 
-		Phpill::log('debug', 'Session Cookie Driver Initialized');
+		\Phpill::log('debug', 'Session Cookie Driver Initialized');
 	}
 
 	public function open($path, $name)
@@ -39,7 +39,7 @@ class Cookie implements \Phpill\Libraries\Drivers\Session {
 
 	public function read($id)
 	{
-		$data = (string) cookie::get($this->cookie_name);
+		$data = (string) \Phpill\Helpers\Cookie::get($this->cookie_name);
 
 		if ($data == '')
 			return $data;
@@ -53,16 +53,16 @@ class Cookie implements \Phpill\Libraries\Drivers\Session {
 
 		if (strlen($data) > 4048)
 		{
-			Phpill::log('error', 'Session ('.$id.') data exceeds the 4KB limit, ignoring write.');
+			\Phpill::log('error', 'Session ('.$id.') data exceeds the 4KB limit, ignoring write.');
 			return FALSE;
 		}
 
-		return cookie::set($this->cookie_name, $data, Phpill::config('session.expiration'));
+		return \Phpill\Helpers\Cookie::set($this->cookie_name, $data, \Phpill::config('session.expiration'));
 	}
 
 	public function destroy($id)
 	{
-		return cookie::delete($this->cookie_name);
+		return \Phpill\Helpers\Cookie::delete($this->cookie_name);
 	}
 
 	public function regenerate()

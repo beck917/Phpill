@@ -26,33 +26,33 @@ class Cache implements \Phpill\Libraries\Drivers\Session {
 	public function __construct()
 	{
 		// Load Encrypt library
-		if (Phpill::config('session.encryption'))
+		if (\Phpill::config('session.encryption'))
 		{
 			$this->encrypt = new Encrypt;
 		}
 
-		Phpill::log('debug', 'Session Cache Driver Initialized');
+		\Phpill::log('debug', 'Session Cache Driver Initialized');
 	}
 
 	public function open($path, $name)
 	{
-		$config = Phpill::config('session.storage');
+		$config = \Phpill::config('session.storage');
 
 		if (empty($config))
 		{
 			// Load the default group
-			$config = Phpill::config('cache.default');
+			$config = \Phpill::config('cache.default');
 		}
 		elseif (is_string($config))
 		{
 			$name = $config;
 
 			// Test the config group name
-			if (($config = Phpill::config('cache.'.$config)) === NULL)
-				throw new Phpill_Exception('cache.undefined_group', $name);
+			if (($config = \Phpill::config('cache.'.$config)) === NULL)
+				throw new \Phpill_Exception('cache.undefined_group', $name);
 		}
 
-		$config['lifetime'] = (Phpill::config('session.expiration') == 0) ? 86400 : Phpill::config('session.expiration');
+		$config['lifetime'] = (\Phpill::config('session.expiration') == 0) ? 86400 : \Phpill::config('session.expiration');
 		$this->cache = new \Phpill\Libraries\Cache($config);
 
 		return is_object($this->cache);
@@ -68,7 +68,7 @@ class Cache implements \Phpill\Libraries\Drivers\Session {
 		$id = 'session_'.$id;
 		if ($data = $this->cache->get($id))
 		{
-			return Phpill::config('session.encryption') ? $this->encrypt->decode($data) : $data;
+			return \Phpill::config('session.encryption') ? $this->encrypt->decode($data) : $data;
 		}
 
 		// Return value must be string, NOT a boolean
@@ -78,7 +78,7 @@ class Cache implements \Phpill\Libraries\Drivers\Session {
 	public function write($id, $data)
 	{
 		$id = 'session_'.$id;
-		$data = Phpill::config('session.encryption') ? $this->encrypt->encode($data) : $data;
+		$data = \Phpill::config('session.encryption') ? $this->encrypt->encode($data) : $data;
 
 		return $this->cache->set($id, $data);
 	}

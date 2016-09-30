@@ -74,12 +74,12 @@ class Session {
 			else
 			{
 				// Always update session cookie to keep the session alive
-				cookie::set(self::$config['name'], $_SESSION['session_id'], self::$config['expiration']);
+				\Phpill\Helpers\Cookie::set(self::$config['name'], $_SESSION['session_id'], self::$config['expiration']);
 			}
 
 			// Close the session just before sending the headers, so that
 			// the session cookie(s) can be written.
-			Event::add('system.send_headers', array($this, 'write_close'));
+			\Event::add('system.send_headers', array($this, 'write_close'));
 
 			// Make sure that sessions are closed before exiting
 			register_shutdown_function(array($this, 'write_close'));
@@ -119,14 +119,14 @@ class Session {
 
 			// Load the driver
 			if ( ! \Phpill::auto_load($driver))
-				throw new Phpill_Exception('core.driver_not_found', self::$config['driver'], get_class($this));
+				throw new \Phpill_Exception('core.driver_not_found', self::$config['driver'], get_class($this));
 
 			// Initialize the driver
 			self::$driver = new $driver();
 
 			// Validate the driver
-			if ( ! (self::$driver instanceof Session_Driver))
-				throw new Phpill_Exception('core.driver_implements', self::$config['driver'], get_class($this), 'Session_Driver');
+			if ( ! (self::$driver instanceof \Phpill\Libraries\Drivers\Session))
+				throw new \Phpill_Exception('core.driver_implements', self::$config['driver'], get_class($this), 'Session_Driver');
 
 			// Register non-native driver as the session handler
 			session_set_save_handler
@@ -142,7 +142,7 @@ class Session {
 
 		// Validate the session name
 		if ( ! preg_match('~^(?=.*[a-z])[a-z0-9_]++$~iD', self::$config['name']))
-			throw new Phpill_Exception('session.invalid_session_name', self::$config['name']);
+			throw new \Phpill_Exception('session.invalid_session_name', self::$config['name']);
 
 		// Name the session, this will also be the name of the cookie
 		session_name(self::$config['name']);
@@ -290,7 +290,7 @@ class Session {
 			$run = TRUE;
 
 			// Run the events that depend on the session being open
-			Event::run('system.session_write');
+			\Event::run('system.session_write');
 
 			// Expire flash keys
 			$this->expire_flash();

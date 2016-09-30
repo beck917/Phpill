@@ -36,7 +36,7 @@ class Database implements \Phpill\Libraries\Drivers\Session {
 	public function __construct()
 	{
 		// Load configuration
-		$config = Phpill::config('session');
+		$config = \Phpill::config('session');
 
 		if ( ! empty($config['encryption']))
 		{
@@ -62,7 +62,7 @@ class Database implements \Phpill\Libraries\Drivers\Session {
 		// Load database
 		$this->db = \Phpill\Libraries\Database::instance($this->db);
 
-		Phpill::log('debug', 'Session Database Driver Initialized');
+		\Phpill::log('debug', 'Session Database Driver Initialized');
 	}
 
 	public function open($path, $name)
@@ -156,7 +156,7 @@ class Database implements \Phpill\Libraries\Drivers\Session {
 		// Delete all expired sessions
 		$query = $this->db->delete($this->table, array('last_activity <' => time() - $maxlifetime));
 
-		Phpill::log('debug', 'Session garbage collected: '.$query->count().' row(s) deleted.');
+		\Phpill::log('debug', 'Session garbage collected: '.$query->count().' row(s) deleted.');
 
 		return TRUE;
 	}

@@ -58,7 +58,7 @@ class Cookie {
 	 */
 	public static function get($name, $default = NULL, $xss_clean = FALSE)
 	{
-		return Input::instance()->cookie($name, $default, $xss_clean);
+		return \Phpill\Libraries\Input::instance()->cookie($name, $default, $xss_clean);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Cookie {
 		unset($_COOKIE[$name]);
 
 		// Sets the cookie value to an empty string, and the expiration to 24 hours ago
-		return cookie::set($name, '', -86400, $path, $domain, FALSE, FALSE);
+		return Cookie::set($name, '', -86400, $path, $domain, FALSE, FALSE);
 	}
 
 } // End cookie
