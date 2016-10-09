@@ -167,10 +167,13 @@ class Input {
 			}
 		}
 		$ret = $this->search_array($post, $key, $default, $xss_clean);
-
+        
+        /**
 		if ($ret === NULL || $ret === '') {
 			Network::buffer_error(90031, "$key 参数无效");
 		}
+         * 
+         */
 		
 		if (is_numeric($ret)) {
 			$ret = intval($ret);
