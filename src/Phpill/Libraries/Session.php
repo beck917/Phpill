@@ -272,7 +272,7 @@ class Session {
 			$_SESSION = array();
 
 			// Delete the session cookie
-			cookie::delete($name);
+			\Phpill\Helpers\Cookie::delete($name);
 		}
 	}
 
