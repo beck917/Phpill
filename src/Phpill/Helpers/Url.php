@@ -20,7 +20,7 @@ class Url {
 	 */
 	public static function current($qs = FALSE)
 	{
-		return ($qs === TRUE) ? Router::$complete_uri : Router::$current_uri;
+		return ($qs === TRUE) ? \Phpill\Libraries\Router::$complete_uri : \Phpill\Libraries\Router::$current_uri;
 	}
 
 	/**
@@ -125,7 +125,7 @@ class Url {
 		if (strpos($file, '://') === FALSE)
 		{
 			// Add the base URL to the filename
-			$file = url::base($index).$file;
+			$file = Url::base($index).$file;
 		}
 
 		return $file;
@@ -142,7 +142,7 @@ class Url {
 	{
 		if ($_GET === $arguments)
 		{
-			$query = Router::$query_string;
+			$query = \Phpill\Libraries\Router::$query_string;
 		}
 		elseif ($query = http_build_query(array_merge($_GET, $arguments)))
 		{
@@ -150,7 +150,7 @@ class Url {
 		}
 
 		// Return the current URI with the arguments merged into the query string
-		return Router::$current_uri.$query;
+		return \Phpill\Libraries\Router::$current_uri.$query;
 	}
 
 	/**
@@ -186,7 +186,7 @@ class Url {
 	 */
 	public static function redirect($uri = '', $method = '302')
 	{
-		if (Event::has_run('system.send_headers'))
+		if (\Event::has_run('system.send_headers'))
 		{
 			return FALSE;
 		}
@@ -213,7 +213,7 @@ class Url {
 			$output = '<ul>';
 			foreach ($uri as $link)
 			{
-				$output .= '<li>'.html::anchor($link).'</li>';
+				$output .= '<li>'.  Html::anchor($link).'</li>';
 			}
 			$output .= '</ul>';
 
@@ -222,7 +222,7 @@ class Url {
 		}
 		else
 		{
-			$output = '<p>'.html::anchor($uri).'</p>';
+			$output = '<p>'.Html::anchor($uri).'</p>';
 		}
 
 		// Run the redirect event
@@ -231,7 +231,7 @@ class Url {
 		if (strpos($uri, '://') === FALSE)
 		{
 			// HTTP headers expect absolute URLs
-			$uri = url::site($uri, request::protocol());
+			$uri = Url::site($uri, request::protocol());
 		}
 
 		if ($method === 'refresh')

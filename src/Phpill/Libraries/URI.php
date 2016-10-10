@@ -250,7 +250,7 @@ class URI extends Router {
 	 */
 	public function controller_path($full = TRUE)
 	{
-		return ($full) ? url::site(self::$controller_path) : self::$controller_path;
+		return ($full) ? \Phpill\Helpers\Url::site(self::$controller_path) : self::$controller_path;
 	}
 
 	/**
@@ -261,7 +261,7 @@ class URI extends Router {
 	 */
 	public function controller($full = TRUE)
 	{
-		return ($full) ? url::site(self::$controller_path.self::$controller) : self::$controller;
+		return ($full) ? \Phpill\Helpers\Url::site(self::$controller_path.self::$controller) : self::$controller;
 	}
 
 	/**
@@ -272,7 +272,7 @@ class URI extends Router {
 	 */
 	public function method($full = TRUE)
 	{
-		return ($full) ? url::site(self::$controller_path.self::$controller.'/'.self::$method) : self::$method;
+		return ($full) ? \Phpill\Helpers\Url::site(self::$controller_path.self::$controller.'/'.self::$method) : self::$method;
 	}
 
 } // End URI Class
