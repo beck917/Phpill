@@ -226,7 +226,7 @@ class Url {
 		}
 
 		// Run the redirect event
-		Event::run('system.redirect', $uri);
+		\Event::run('system.redirect', $uri);
 
 		if (strpos($uri, '://') === FALSE)
 		{
