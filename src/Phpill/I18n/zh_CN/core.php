@@ -8,6 +8,7 @@ $lang = array
 	'invalid_property'      => '属性 %s 不存在于 %s 类中。',
 	'log_dir_unwritable'    => '日志目录不可写：%s',
 	'resource_not_found'    => '请求的 %s，%s，不存在',
+    'parameters_error'      => '%s 参数错误',
 	'invalid_filetype'      => '在视图配置文件内请求的文件类型，.%s，不允许',
 	'view_set_filename'     => '在调用 render 之前您必须设置视图文件名',
 	'no_default_route'      => '请在 config/routes.php 文件设置默认的路由参数值',

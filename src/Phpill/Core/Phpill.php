@@ -1576,7 +1576,6 @@ class Phpill_Exception extends Exception {
 	public function __construct($error)
 	{
 		$args = array_slice(func_get_args(), 1);
-
 		// Fetch the error message
 		$message = Phpill::lang($error, $args);
 
@@ -1655,6 +1654,40 @@ class Phpill_Exception extends Exception {
 	}
 
 } // End Phpill Exception
+
+/**
+ * Creates a custom exception.
+ */
+class Phpill_Message_Exception extends Exception {
+    public $msg_code;
+	/**
+	 * Set exception title and message.
+	 *
+	 * @param   string  exception title string
+	 * @param   string  exception message string
+	 * @param   string  custom error template
+	 */
+	public function __construct($code, $message, ...$args)
+	{
+        $message = Phpill::lang($message, $args);
+        
+		Exception::__construct($message);
+
+		$this->msg_code = $code;
+	}
+    
+	/**
+	 * Magic method for converting an object to a string.
+	 *
+	 * @return  string  i18n message
+	 */
+	public function __toString()
+	{
+        var_dump($this->message);
+		return (string) $this->message;
+	}
+
+} // End Phpill PHP Exception
 
 /**
  * Creates a custom exception.

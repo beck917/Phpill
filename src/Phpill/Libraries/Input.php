@@ -157,8 +157,8 @@ class Input {
 			if ($post_data != "") {
 				$post = json_decode($post_data, true);
 			} elseif(!empty($_POST)) {
-				if (isset($_POST['input'])) {
-					$post = json_decode($_POST['input'], true);
+				if (isset($_POST['＿input'])) {
+					$post = json_decode($_POST['＿input'], true);
 				} else {
 					$post = $_POST;
 				}
@@ -174,6 +174,10 @@ class Input {
 		}
          * 
          */
+        
+        if ($ret === NULL) {
+            throw new \Phpill_Message_Exception(90031, 'core.parameters_error', $key);
+        }
 		
 		if (is_numeric($ret)) {
 			$ret = intval($ret);

@@ -8,6 +8,7 @@ $lang = array
 	'invalid_property'      => 'The %s property does not exist in the %s class.',
 	'log_dir_unwritable'    => 'The log directory is not writable: %s',
 	'resource_not_found'    => 'The requested %s, %s, could not be found',
+    'parameters_error'      => '%s parameters error',
 	'invalid_filetype'      => 'The requested filetype, .%s, is not allowed in your view configuration file',
 	'view_set_filename'     => 'You must set the the view filename before calling render',
 	'no_default_route'      => 'Please set a default route in config/routes.php',
