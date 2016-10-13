@@ -15,7 +15,7 @@ namespace Phpill\Libraries;
 class Redis {
 	public static $_instance = array();
 	private $conn = null;
-	public $code_type = CODE_TYPE_PHPSER;
+	public $code_type = self::CODE_TYPE_JSON;
 	
 	CONST CODE_TYPE_JSON = 1;
 	CONST CODE_TYPE_NIL = 2;
@@ -31,19 +31,19 @@ class Redis {
 			$name = $config;
 
 			// Test the config group name
-			if (($config = \Phpill::config('cache.'.$config)) === NULL)
+			if (($config = \Phpill::config('redis.'.$config)) === NULL)
 				throw new \Phpill_Exception('cache.undefined_group', $name);
 		}
 
 		if (is_array($config))
 		{
 			// Append the default configuration options
-			$config += \Phpill::config('cache.default');
+			$config += \Phpill::config('redis.default');
 		}
 		else
 		{
 			// Load the default group
-			$config = \Phpill::config('cache.default');
+			$config = \Phpill::config('redis.default');
 		}
 
 		// Cache the config in the object
@@ -68,13 +68,13 @@ class Redis {
 	 */
 	public static function instance($config = 'default')
 	{
-		if ( ! isset(Cache::$instances[$config]))
+		if ( ! isset(Redis::$_instance[$config]))
 		{
 			// Create a new instance
-			Cache::$instances[$config] = new Cache($config);
+			Redis::$_instance[$config] = new Redis($config);
 		}
 
-		return Cache::$instances[$config];
+		return Redis::$_instance[$config];
 	}
 	
 	public function encode($value)
