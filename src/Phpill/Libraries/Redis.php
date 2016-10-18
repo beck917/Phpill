@@ -61,10 +61,10 @@ class Redis {
     }
 	
 	/**
-	 * Returns a singleton instance of Cache.
+	 * Returns a singleton instance of Redis.
 	 *
 	 * @param   array  configuration
-	 * @return  Cache
+	 * @return  Redis
 	 */
 	public static function instance($config = 'default')
 	{
@@ -213,14 +213,14 @@ class Redis {
 	
 	public function lock($key, $ex = 30)
 	{
-		$ok = $this->conn->set(\App\Constant\RedisKey::LOCK.$key, 1, array('nx', 'ex' => $ex));
+		$ok = $this->conn->set("$:lock".$key, 1, array('nx', 'ex' => $ex));
 		
 		return $ok;
 	}
 	
 	public function unlock($key) 
 	{
-		return $this->delete(\App\Constant\RedisKey::LOCK.$key);
+		return $this->delete("$:lock".$key);
 	}
 	
     //================hash 操作函数==========================
@@ -260,6 +260,11 @@ class Redis {
 	{
 		$data =  $this->conn->hMGet($key, $fields);
 		$decoded_data = array();
+        
+        if ($data === false) {
+            return $decoded_data;
+        }
+        
 		foreach ($data as $k => $v) {
 			if ($data[$k])
 			{
@@ -273,6 +278,7 @@ class Redis {
 	
     public function hmSet($key, $fields)
 	{
+        $datas = array();
 		foreach ($fields as $keys => $data) {
 			$data = $this->encode($data);
 
