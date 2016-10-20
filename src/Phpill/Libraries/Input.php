@@ -152,19 +152,24 @@ class Input {
 	{
 		static $post = null;
 		if ($post === null) {
-			$post_data = file_get_contents("php://input", 'r');
-
-			if ($post_data != "") {
-				$post = json_decode($post_data, true);
-			} elseif(!empty($_POST)) {
-				if (isset($_POST['＿input'])) {
-					$post = json_decode($_POST['＿input'], true);
+			if(!empty($_POST)) {
+				if (isset($_POST['__input'])) {
+					$post = json_decode($_POST['__input'], true);
 				} else {
 					$post = $_POST;
 				}
+			} elseif (!empty($_GET)) {
+				if (isset($_GET['__input'])) {
+					$post = json_decode($_GET['__input'], true);
+				} else {
+					$post = $_GET;
+				}
 			} else {
-				$post = $_GET;
-			}
+                $post_data = file_get_contents("php://input", 'r');
+                if ($post_data != "") {
+                    $post = json_decode($post_data, true);
+                }
+            }
 		}
 		$ret = $this->search_array($post, $key, $default, $xss_clean);
         
