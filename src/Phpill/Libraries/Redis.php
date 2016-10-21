@@ -24,8 +24,10 @@ class Redis {
 	CONST CODE_TYPE_JSON_OBJECT = 5;
 	
 	private $cur_timestamp;
+    private $local_cache;
 	
     public function __construct($config = FALSE){
+        $name = "";
 		if (is_string($config))
 		{
 			$name = $config;
@@ -58,6 +60,8 @@ class Redis {
 		
 		$this->code_type = $this->config['serialize'];
 		$this->cur_timestamp = time();
+        
+        $this->local_cache = LocalCache::instance("redis:".$name);
     }
 	
 	/**
@@ -245,8 +249,12 @@ class Redis {
     
     public function hGet($key, $field)
 	{
+        if ($data = $this->local_cache->get($key."^!".$field)) {
+            return $data;
+        }
 		if ($data = $this->conn->hGet($key, $field)) {
 			$data = $this->decode($data);
+            $this->local_cache->set($key."^!".$field, $data);
 		}
 		return $data;
     }
@@ -270,6 +278,7 @@ class Redis {
 			{
 				$decoded_data[$k] = $this->decode($v);
 				//yield $decoded_data[$k];
+                $this->local_cache->set($key."^!".$k, $decoded_data[$k]);
 			}
 		}
 
