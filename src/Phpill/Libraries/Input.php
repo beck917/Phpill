@@ -171,6 +171,7 @@ class Input {
                 }
             }
 		}
+
 		$ret = $this->search_array($post, $key, $default, $xss_clean);
         
         /**
@@ -181,7 +182,7 @@ class Input {
          */
         
         if ($ret === NULL) {
-            throw new \Phpill_Message_Exception(90031, 'core.parameters_error', $key);
+            //throw new \Phpill_Message_Exception(90031, 'core.parameters_error', $key);
         }
 		
 		if (is_numeric($ret)) {
