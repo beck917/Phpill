@@ -164,7 +164,9 @@ class Session {
 
 		// Put session_id in the session variable
 		$_SESSION['session_id'] = session_id();
-
+        
+        $_SESSION['total_hits'] += 1;
+        /**
 		// Set defaults
 		if ( ! isset($_SESSION['_kf_flash_']))
 		{
@@ -218,6 +220,7 @@ class Session {
 
 		// Set the new data
 		self::set($vars);
+         */
 	}
 
 	/**
