@@ -91,7 +91,7 @@ class Cache implements \Phpill\Libraries\Drivers\Session {
 
 	public function regenerate()
 	{
-		session_regenerate_id(TRUE);
+		if(session_id() === '') session_regenerate_id(true);
 
 		// Return new session id
 		return session_id();

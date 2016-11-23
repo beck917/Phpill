@@ -67,7 +67,7 @@ class Cookie implements \Phpill\Libraries\Drivers\Session {
 
 	public function regenerate()
 	{
-		session_regenerate_id(TRUE);
+		if(session_id() === '') session_regenerate_id(true);
 
 		// Return new id
 		return session_id();
