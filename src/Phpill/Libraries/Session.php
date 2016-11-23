@@ -65,7 +65,7 @@ class Session {
 
 			// Create a new session
 			$this->create();
-
+            /**
 			if (self::$config['regenerate'] > 0 AND ($_SESSION['total_hits'] % self::$config['regenerate']) === 0)
 			{
 				// Regenerate session id and update session cookie
@@ -76,6 +76,9 @@ class Session {
 				// Always update session cookie to keep the session alive
 				\Phpill\Helpers\Cookie::set(self::$config['name'], $_SESSION['session_id'], self::$config['expiration']);
 			}
+            */
+            // Always update session cookie to keep the session alive
+            \Phpill\Helpers\Cookie::set(self::$config['name'], $_SESSION['session_id'], self::$config['expiration']);
 
 			// Close the session just before sending the headers, so that
 			// the session cookie(s) can be written.
@@ -164,8 +167,7 @@ class Session {
 
 		// Put session_id in the session variable
 		$_SESSION['session_id'] = session_id();
-        
-        $_SESSION['total_hits'] += 1;
+
         /**
 		// Set defaults
 		if ( ! isset($_SESSION['_kf_flash_']))
