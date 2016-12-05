@@ -185,7 +185,7 @@ class Input {
             //throw new \Phpill_Message_Exception(90031, 'core.parameters_error', $key);
         }
 		
-		if (is_numeric($ret)) {
+		if (is_numeric($ret) && is_int($ret)) {
 			$ret = intval($ret);
 		}
 		return $ret;
