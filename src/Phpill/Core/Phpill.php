@@ -860,7 +860,7 @@ final class Phpill {
 		{
 			// Get the i18n messages
 			$error   = self::lang('core.generic_error');
-			$message = self::lang('core.errors_disabled', url::site(), url::site(Phpill\Libraries\Router::$current_uri));
+			$message = self::lang('core.errors_disabled', \Phpill\Helpers\Url::site(), \Phpill\Helpers\Url::site(Phpill\Libraries\Router::$current_uri));
 
 			// Load the errors_disabled view
 			require self::find_file('Views', 'phpill_error_disabled');
