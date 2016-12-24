@@ -1,5 +1,5 @@
 <?php  
-if (Router::$routed_uri == 'sns' || Router::$routed_uri == 'page') {
+if (false) {
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -19,6 +19,6 @@ if (Router::$routed_uri == 'sns' || Router::$routed_uri == 'page') {
 </html>
 <?php 
 } else {
-	Network::buffer_error(-10000, "inner_server_error");
+	\Phpill\Modules\Core\Libraries\Network::buffer_error(10000, "inner_server_error");
 }
 ?>
