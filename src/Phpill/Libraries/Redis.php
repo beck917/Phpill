@@ -277,16 +277,16 @@ class Redis {
 
     //================hash 操作函数==========================
     //================事务==================================
-    public function multi($key) {
-        return $this->conn->multi($key);
+    public function multi() {
+        return $this->conn->multi();
     }
     
     public function exec() {
         return $this->conn->exec();
     }
     
-    public function discard($key) {
-        return $this->conn->discard($key);
+    public function discard() {
+        return $this->conn->discard();
     }
     //================事务==================================
     //================有序集合===============================
