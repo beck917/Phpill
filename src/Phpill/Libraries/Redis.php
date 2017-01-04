@@ -50,7 +50,7 @@ class Redis {
         $this->config = $config;
 
         $this->conn = new \Redis();
-        $this->conn->connect($this->config['host'], $this->config['port'], 3);
+        $this->conn->connect($this->config['host'], $this->config['port'], 1);
 
         if ($this->config['auth']) {
             $this->conn->auth($this->config['auth']);
