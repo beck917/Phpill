@@ -50,7 +50,11 @@ class Redis {
         $this->config = $config;
 
         $this->conn = new \Redis();
-        $this->conn->pconnect($this->config['host'], $this->config['port'], 1);
+        if (PHP_SAPI == 'cli') {
+            $this->conn->connect($this->config['host'], $this->config['port'], 1);
+        } else {
+            $this->conn->pconnect($this->config['host'], $this->config['port'], 1);
+        }
 
         if ($this->config['auth']) {
             $this->conn->auth($this->config['auth']);
