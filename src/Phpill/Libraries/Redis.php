@@ -345,8 +345,8 @@ class Redis {
         return $this->conn->pipeline();
     }
     
-	public function __call($name, ...$args)
+	public function __call($name, $args)
 	{
-		return $this->conn->rawCommand($name, $args);
+		return $this->conn->rawCommand($name, ...$args);
 	}
 }
