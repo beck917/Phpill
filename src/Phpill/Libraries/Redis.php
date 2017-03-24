@@ -237,10 +237,6 @@ class Redis {
         return $data;
     }
 
-    public function hDel($key, $field) {
-        return $this->conn->hDel($key, $field);
-    }
-
     public function hmGet($key, $fields) {
         $data = $this->conn->hMGet($key, $fields);
         $decoded_data = array();
