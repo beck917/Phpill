@@ -344,4 +344,9 @@ class Redis {
     public function pipeline() {
         return $this->conn->pipeline();
     }
+    
+	public function __call($name, ...$args)
+	{
+		return $this->conn->rawCommand($name, $args);
+	}
 }
